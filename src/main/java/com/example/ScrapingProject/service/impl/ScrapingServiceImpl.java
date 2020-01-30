@@ -33,7 +33,6 @@ public class ScrapingServiceImpl implements ScrapingService {
         Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-indian-cinema-1549443229-1").get();
 
         Elements movieqstn = moviedocument.select("p:contains(?)");
-        System.out.println("=======>" + movieqstn.size());
         Elements movieoptA = moviedocument.select("p:contains(A. )");
         Elements movieoptB = moviedocument.select("p:contains(B.)");
         Elements movieoptC = moviedocument.select("p:contains(C.)");

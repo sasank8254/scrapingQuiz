@@ -20,10 +20,10 @@ public class ScrapingController {
 
     @Autowired
     ScrapingServiceCricket scrapingServiceCricket;
-    @PostMapping("/getTitle")
-    public String getName() throws IOException {
-        return scrapingService.getTitle();
-    }
+//    @PostMapping("/getTitle")
+//    public String getName() throws IOException {
+//        return scrapingService.getTitle();
+//    }
 
 //    public void getQuestions() throws IOException {
 //        scrapingService.getMovieQuestions();
