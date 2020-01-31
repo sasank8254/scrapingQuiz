@@ -46,6 +46,7 @@ public class ScrapingServiceImpl implements ScrapingService {
             moviecsv.print('"' + movieqstn.get(i).text() + '"');
             moviecsv.print(",");
             moviecsv.print("\n");
+            //todo: move three line into one line
             String optA = movieoptA.get(i).text();
             optA = optA.substring(2);
             optA = optA.trim();

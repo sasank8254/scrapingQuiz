@@ -15,6 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/scrapper")
 public class ScrapingController {
+
+    //todo : create one Scraping service interface
+    //todo : create mulitple implementation classes
+    //todo : autowire a collection of ScrapingService
+    //todo :: in the controller method iterate and execute methiod
+
     @Autowired
     ScrapingService scrapingService;
 
