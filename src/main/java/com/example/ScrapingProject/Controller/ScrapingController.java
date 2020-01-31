@@ -23,10 +23,6 @@ public class ScrapingController {
     ScrapingService scrapingService;
 
 
-    ///TESTING
-    @Autowired
-    ScrapingRepository scrapingRepository;
-
 
     @PostMapping("/getQuestions")
     public boolean getMovQuestions() throws IOException {
@@ -53,6 +49,11 @@ public class ScrapingController {
         return scrapingService.getLiteratureQuestions();
     }
 
+    @PostMapping("/getLiteratureQuestions1")
+    public boolean getLiteratureQuestions() throws IOException {
+        return scrapingService.getLiteratureQuestions1();
+    }
+
     @GetMapping("/get")
     public List<Questions> findAll(){
         return scrapingService.findQuestions();
@@ -68,17 +69,17 @@ public class ScrapingController {
     }
 
 
-    @PostMapping("/addQuestion")
+    @PostMapping("/addQuestions")
     public void addQuestion(@RequestBody Questions questions){
         scrapingService.addQuestions(questions);
     }
 
 
     ////TESTING
-    @PostMapping("/addQuestions")
-    public void addQuestions(@RequestBody Questions questions){
-        scrapingRepository.save(questions);
-    }
+//    @PostMapping("/addQuestions")
+//    public void addQuestions(@RequestBody Questions questions){
+//        scrapingRepository.save(questions);
+//    }
 
 
 }

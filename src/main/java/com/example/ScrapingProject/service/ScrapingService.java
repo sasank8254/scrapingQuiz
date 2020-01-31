@@ -9,6 +9,7 @@ public interface ScrapingService {
     boolean getMovieQuestions() throws IOException;
     boolean getCricketQuestions() throws IOException;
     boolean getLiteratureQuestions() throws IOException;
+    boolean getLiteratureQuestions1() throws IOException;
     boolean getMovieQuestions1() throws IOException;
     boolean getCricketQuestions1() throws IOException;
     List<Questions> findQuestions();

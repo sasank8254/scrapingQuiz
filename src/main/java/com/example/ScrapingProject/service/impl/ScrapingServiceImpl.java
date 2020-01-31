@@ -225,6 +225,70 @@ public class ScrapingServiceImpl implements ScrapingService {
     }
 
     @Override
+    public boolean getLiteratureQuestions1() throws IOException {
+        Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-novels-and-literatures-1487598247-1").get();
+
+        Elements movieqstn = moviedocument.select("strong:contains(?)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("p:contains(A.)");
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("p:contains(B.)");
+        Elements movieoptC = moviedocument.select("p:contains(C.)");
+        Elements movieoptD = moviedocument.select("p:contains(D.)");
+        Elements movieanswer = moviedocument.select("strong:contains(Ans.)");
+        FileOutputStream moviefout = new FileOutputStream("LiteratureQuestionBank.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0; i < 5; i++) {
+            String stringquestion = movieqstn.get(i).text();
+            stringquestion = stringquestion.substring(3);
+            moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
+
+            //todo: move three line into one line
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + movieoptB.get(i).text() + '"'+",\n");
+
+            String optC = movieoptC.get(i+1).text().substring(2).trim();
+            moviecsv.print('"' + movieoptC.get(i+1).text() + '"'+",\n");
+
+            String optD = movieoptD.get(i).text().substring(2).trim();
+            moviecsv.print('"' + movieoptD.get(i).text() + '"'+",\n");
+
+            String answer = movieanswer.get(i).text().substring(4).trim();
+            int len = answer.length();
+            moviecsv.print('"' + answer + '"'+",\n");
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            // map.put("question", stringquestion);
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+            map.put("optionD", optD);
+
+            questions.setQuestionText(stringquestion);
+            questions.setOptions(map);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer);
+            questions.setCategoryId("literature");
+            if (len == 1) {
+                questions.setQuestionType(1);
+            } else {
+                questions.setQuestionType(2);
+            }
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+        return false;
+    }
+
+    @Override
     public boolean getMovieQuestions1() throws IOException {
 
         Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-indian-classical-theatre-and-drama-1549368269-1").get();
