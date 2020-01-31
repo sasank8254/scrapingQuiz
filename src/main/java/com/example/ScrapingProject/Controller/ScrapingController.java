@@ -1,14 +1,9 @@
 package com.example.ScrapingProject.Controller;
 
-import com.example.ScrapingProject.dto.QuestionsDTO;
 import com.example.ScrapingProject.entity.Questions;
 import com.example.ScrapingProject.repository.ScrapingRepository;
 import com.example.ScrapingProject.service.ScrapingService;
-import com.example.ScrapingProject.service.ScrapingServiceCricket;
-import com.example.ScrapingProject.service.ScrapingServiceLiterature;
-import com.example.ScrapingProject.service.ScrapingServiceTechnology;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -37,14 +32,21 @@ public class ScrapingController {
     public boolean getMovQuestions() throws IOException {
         return scrapingService.getMovieQuestions();
     }
+    @PostMapping("/getMovieQuestions")
+    public boolean getMovieQuestions() throws IOException {
+        return scrapingService.getMovieQuestions1();
+    }
+
     @PostMapping("/getCricketQuestions")
     public boolean getCricQuestions() throws IOException {
         return scrapingService.getCricketQuestions();
     }
-//    @PostMapping("/getTechnolgyQuestions")
-//    public boolean getTechQuestions() throws IOException {
-//        return scrapingServiceTechnology.getTechnologyQuestions();
-//    }
+
+
+    @PostMapping("/getCricketQuestions1")
+    public boolean getCricketQuestions() throws IOException {
+        return scrapingService.getCricketQuestions1();
+    }
 
     @PostMapping("/getLiteratureQuestions")
     public boolean getLitQuestions() throws IOException {
@@ -54,6 +56,15 @@ public class ScrapingController {
     @GetMapping("/get")
     public List<Questions> findAll(){
         return scrapingService.findQuestions();
+    }
+
+    @GetMapping("/getQuestionsByCategory/{categoryId}")
+    public List<Questions> getQUestionsByCategory(@PathVariable("categoryId") String categoryId){
+
+        return scrapingService.findByCategory(categoryId);
+//        return scrapingRepository.findByCategoryId(categoryId);
+
+
     }
 
 

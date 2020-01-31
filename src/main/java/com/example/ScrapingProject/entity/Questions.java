@@ -19,12 +19,13 @@ public class Questions {
     @Id
     private String questionId;
     private String questionFormat;
-    private String answer;
+    private String answers;
     private String categoryId;
-    private Integer answerType;
-    private Map<String, String> questionAndChoice;
+    private Integer questionType;
+    private String questionText;
+    private Map<String, String> options;
     private String difficultyLevel;
-    private String url;
+    private String urlAttachment;
 }
 ///Answer type 1 - single correct
 ///Answer type 2- multi correct
