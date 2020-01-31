@@ -234,7 +234,7 @@ public class ScrapingServiceImpl implements ScrapingService {
         Elements movieoptC = moviedocument.select("p:contains(C.)");
         Elements movieoptD = moviedocument.select("p:contains(D.)");
         Elements movieanswer = moviedocument.select("p:contains(Ans:)");
-        FileOutputStream moviefout = new FileOutputStream("MovieQuestionBank.csv");
+        FileOutputStream moviefout = new FileOutputStream("MovieQuestionBank1.csv");
         PrintStream moviecsv = new PrintStream(moviefout);
         for (int i = 0; i < movieqstn.size(); i++) {
             String question  = movieqstn.get(i).text().substring(3).trim();
@@ -293,7 +293,7 @@ public class ScrapingServiceImpl implements ScrapingService {
         Elements cricketoptC = document1.select("p:contains(C.)");
         Elements cricketoptD = document1.select("p:matches(D. )");
         Elements cricketanswer = document1.select("p:contains(Ans:)");
-        FileOutputStream cricketfout=new FileOutputStream("CricketQuestionBank.csv");
+        FileOutputStream cricketfout=new FileOutputStream("CricketQuestionBank1.csv");
         PrintStream cricketcsv=new PrintStream(cricketfout);
 
         for (int i=0;i<cricketqstn.size();i++){
