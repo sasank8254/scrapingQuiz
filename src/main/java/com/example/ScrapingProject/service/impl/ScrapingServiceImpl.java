@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,58 +23,55 @@ public class ScrapingServiceImpl implements ScrapingService {
     @Autowired
     ScrapingRepository scrapingRepository;
 
-    public String getTitle() throws IOException {
-        Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-indian-cinema-1549443229-1").get();
-        System.out.println(moviedocument.title());
-        return moviedocument.title();
-    }
+//    public String getTitle() throws IOException {
+//        Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-indian-cinema-1549443229-1").get();
+//        System.out.println(moviedocument.title());
+//        return moviedocument.title();
+//    }
 
     @Override
     public boolean getMovieQuestions() throws IOException {
+
+
         Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-indian-cinema-1549443229-1").get();
 
         Elements movieqstn = moviedocument.select("p:contains(?)");
-        Elements movieoptA = moviedocument.select("p:contains(A. )");
+        Elements movieoptA = moviedocument.select("p:matches(A. )");
+        System.out.println(movieoptA.size());
         Elements movieoptB = moviedocument.select("p:contains(B.)");
+        System.out.println(movieoptB.size());
         Elements movieoptC = moviedocument.select("p:contains(C.)");
-        Elements movieoptD = moviedocument.select("p:contains(D.)");
+        System.out.println(movieoptC.size());
+        Elements movieoptD = moviedocument.select("p:matches(D. )");
+        System.out.println(movieoptD.size());
         Elements movieanswer = moviedocument.select("p:contains(Ans:)");
         FileOutputStream moviefout = new FileOutputStream("MovieQuestionBank.csv");
         PrintStream moviecsv = new PrintStream(moviefout);
         for (int i = 0; i < movieqstn.size(); i++) {
+
             String stringquestion = movieqstn.get(i).text();
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"');
             moviecsv.print(",");
             moviecsv.print("\n");
             //todo: move three line into one line
-            String optA = movieoptA.get(i).text();
-            optA = optA.substring(2);
-            optA = optA.trim();
+            String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"');
             moviecsv.print(",");
             moviecsv.print("\n");
-            String optB = movieoptB.get(i).text();
-            optB = optB.substring(2);
-            optB = optB.trim();
+            String optB = movieoptB.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptB.get(i).text() + '"');
             moviecsv.print(",");
             moviecsv.print("\n");
-            String optC = movieoptC.get(i).text();
-            optC = optC.substring(2);
-            optC = optC.trim();
+            String optC = movieoptC.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptC.get(i).text() + '"');
             moviecsv.print(",");
             moviecsv.print("\n");
-            String optD = movieoptD.get(i).text();
-            optD = optD.substring(2);
-            optD = optD.trim();
+            String optD = movieoptD.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptD.get(i).text() + '"');
             moviecsv.print(",");
             moviecsv.print("\n");
-            String answer = movieanswer.get(i).text();
-            answer = answer.substring(4);
-            answer = answer.trim();
+            String answer = movieanswer.get(i).text().substring(4).trim();
             int len = answer.length();
             moviecsv.print('"' + movieanswer.get(i).text() + '"');
             moviecsv.print(",");

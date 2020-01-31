@@ -2,6 +2,7 @@ package com.example.ScrapingProject.service.impl;
 
 import com.example.ScrapingProject.entity.Questions;
 import com.example.ScrapingProject.repository.ScrapingRepository;
+import com.example.ScrapingProject.service.ScrapingService;
 import com.example.ScrapingProject.service.ScrapingServiceCricket;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

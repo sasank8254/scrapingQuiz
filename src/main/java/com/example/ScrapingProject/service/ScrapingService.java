@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ScrapingService {
     boolean getMovieQuestions() throws IOException;
-    String getTitle() throws IOException;
+//    String getTitle() throws IOException;
 //    boolean getMovieQuestions1() throws IOException;
     List<Questions> findQuestions();
 }

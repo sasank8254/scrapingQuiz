@@ -3,7 +3,10 @@ package com.example.ScrapingProject.Controller;
 import com.example.ScrapingProject.entity.Questions;
 import com.example.ScrapingProject.service.ScrapingService;
 import com.example.ScrapingProject.service.ScrapingServiceCricket;
+import com.example.ScrapingProject.service.ScrapingServiceLiterature;
+import com.example.ScrapingProject.service.ScrapingServiceTechnology;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +29,14 @@ public class ScrapingController {
 
     @Autowired
     ScrapingServiceCricket scrapingServiceCricket;
-//    @PostMapping("/getTitle")
-//    public String getName() throws IOException {
-//        return scrapingService.getTitle();
-//    }
 
-//    public void getQuestions() throws IOException {
-//        scrapingService.getMovieQuestions();
-//    }
+    @Autowired
+    ScrapingServiceTechnology scrapingServiceTechnology;
+
+    @Autowired
+    ScrapingServiceLiterature scrapingServiceLiterature;
+
+
     @PostMapping("/getQuestions")
     public boolean getMovQuestions() throws IOException {
         return scrapingService.getMovieQuestions();
@@ -41,6 +44,15 @@ public class ScrapingController {
     @PostMapping("/getCricketQuestions")
     public boolean getCricQuestions() throws IOException {
         return scrapingServiceCricket.getCricketQuestions();
+    }
+    @PostMapping("/getTechnolgyQuestions")
+    public boolean getTechQuestions() throws IOException {
+        return scrapingServiceTechnology.getTechnologyQuestions();
+    }
+
+    @PostMapping("/getLiteratureQuestions")
+    public boolean getLitQuestions() throws IOException {
+        return scrapingServiceLiterature.getLiteratureQuestions();
     }
 
     @GetMapping("/get")
