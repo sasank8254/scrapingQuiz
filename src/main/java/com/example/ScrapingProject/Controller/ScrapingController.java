@@ -24,6 +24,7 @@ public class ScrapingController {
 
 
 
+
     @PostMapping("/getQuestions")
     public boolean getMovQuestions() throws IOException {
         return scrapingService.getMovieQuestions();

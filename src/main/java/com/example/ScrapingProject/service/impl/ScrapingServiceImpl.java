@@ -31,13 +31,9 @@ public class ScrapingServiceImpl implements ScrapingService {
 
         Elements movieqstn = moviedocument.select("p:contains(?)");
         Elements movieoptA = moviedocument.select("p:matches(A. )");
-        System.out.println(movieoptA.size());
         Elements movieoptB = moviedocument.select("p:contains(B.)");
-        System.out.println(movieoptB.size());
         Elements movieoptC = moviedocument.select("p:contains(C.)");
-        System.out.println(movieoptC.size());
         Elements movieoptD = moviedocument.select("p:matches(D. )");
-        System.out.println(movieoptD.size());
         Elements movieanswer = moviedocument.select("p:contains(Ans:)");
         FileOutputStream moviefout = new FileOutputStream("MovieQuestionBank.csv");
         PrintStream moviecsv = new PrintStream(moviefout);
@@ -167,9 +163,7 @@ public class ScrapingServiceImpl implements ScrapingService {
         Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/articles/literature-general-knowledge-quiz-1314427586-1").get();
 
         Elements movieqstn = moviedocument.select("strong:contains(?)");
-        System.out.println(movieqstn.size());
         Elements movieoptA = moviedocument.select("p:contains(A.)");
-        System.out.println(movieoptA.size());
         Elements movieoptB = moviedocument.select("p:contains(B.)");
         Elements movieoptC = moviedocument.select("p:contains(C.)");
         Elements movieoptD = moviedocument.select("p:contains(D.)");
@@ -229,16 +223,30 @@ public class ScrapingServiceImpl implements ScrapingService {
         Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-questions-and-answers-on-the-novels-and-literatures-1487598247-1").get();
 
         Elements movieqstn = moviedocument.select("strong:contains(?)");
-        System.out.println(movieqstn.size());
         Elements movieoptA = moviedocument.select("p:contains(A.)");
-        System.out.println(movieoptA.size());
+        movieoptA.remove(5);
+        movieoptA.remove(5);
+        movieoptA.remove(6);
         Elements movieoptB = moviedocument.select("p:contains(B.)");
+        movieoptB.remove(5);
+        movieoptB.remove(5);
+        movieoptB.remove(6);
         Elements movieoptC = moviedocument.select("p:contains(C.)");
+        movieoptC.remove(0);
+        movieoptC.remove(5);
+        movieoptC.remove(5);
+        movieoptC.remove(6);
         Elements movieoptD = moviedocument.select("p:contains(D.)");
+        movieoptD.remove(5);
+        movieoptD.remove(5);
+        movieoptD.remove(6);
         Elements movieanswer = moviedocument.select("strong:contains(Ans.)");
+        movieanswer.remove(5);
+        movieanswer.remove(5);
+        movieanswer.remove(6);
         FileOutputStream moviefout = new FileOutputStream("LiteratureQuestionBank.csv");
         PrintStream moviecsv = new PrintStream(moviefout);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < movieqstn.size(); i++) {
             String stringquestion = movieqstn.get(i).text();
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
@@ -250,8 +258,8 @@ public class ScrapingServiceImpl implements ScrapingService {
             String optB = movieoptB.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptB.get(i).text() + '"'+",\n");
 
-            String optC = movieoptC.get(i+1).text().substring(2).trim();
-            moviecsv.print('"' + movieoptC.get(i+1).text() + '"'+",\n");
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + movieoptC.get(i).text() + '"'+",\n");
 
             String optD = movieoptD.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptD.get(i).text() + '"'+",\n");
