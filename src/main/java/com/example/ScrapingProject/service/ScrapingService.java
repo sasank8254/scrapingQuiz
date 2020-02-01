@@ -12,6 +12,12 @@ public interface ScrapingService {
     boolean getLiteratureQuestions1() throws IOException;
     boolean getMovieQuestions1() throws IOException;
     boolean getCricketQuestions1() throws IOException;
+    boolean getFootballQuestions() throws IOException;
+    boolean getSportsQuestions() throws IOException;
+    boolean getSportsQuestions1() throws IOException;
+    boolean getTennisQuestions() throws IOException;
+    boolean getTennisQuestions1() throws IOException;
+    boolean getHockeyQuestions() throws IOException;
     List<Questions> findQuestions();
     List<Questions> findByCategory(String string);
     void addQuestions(Questions questions);

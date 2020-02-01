@@ -40,6 +40,41 @@ public class ScrapingController {
     }
 
 
+    @PostMapping("/getFootballQuestions")
+    public boolean getFootQuestions() throws IOException {
+        return scrapingService.getFootballQuestions();
+    }
+
+
+    @PostMapping("/getSportsQuestions")
+    public boolean getSportsQuestions() throws IOException {
+        return scrapingService.getSportsQuestions();
+    }
+
+    @PostMapping("/getSportsQuestions1")
+    public boolean getSportsQuestions1() throws IOException {
+        return scrapingService.getSportsQuestions1();
+    }
+
+
+    @PostMapping("/getTennisQuestions")
+    public boolean getTennisQuestions() throws IOException {
+        return scrapingService.getTennisQuestions();
+    }
+
+
+    @PostMapping("/getTennisQuestions1")
+    public boolean getTennisQuestions1() throws IOException {
+        return scrapingService.getTennisQuestions1();
+    }
+
+
+    @PostMapping("/getHockeyQuestions")
+    public boolean getHockeyQuestions() throws IOException {
+        return scrapingService.getHockeyQuestions();
+    }
+
+
     @PostMapping("/getCricketQuestions1")
     public boolean getCricketQuestions() throws IOException {
         return scrapingService.getCricketQuestions1();
