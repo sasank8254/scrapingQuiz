@@ -43,7 +43,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -175,7 +174,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -251,7 +249,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -413,6 +410,142 @@ public class ScrapingServiceImpl implements ScrapingService {
     }
 
     @Override
+    public boolean getCricketQuestions2() throws IOException {
+
+        Document moviedocument = Jsoup.connect("https://www.welovequizzes.com/cricket-quiz-questions-and-answers/").get();
+
+        Elements movieqstn = moviedocument.select("h3:contains(.");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("p:contains(A.)");
+        System.out.println(movieoptA.text());
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("p:matchesown(B. )");
+        System.out.println(movieoptB.text());
+        System.out.println(movieoptB.size());
+        Elements movieoptC = moviedocument.select("p:matchesown(C. )");
+        System.out.println(movieoptC.text());
+        System.out.println(movieoptC.size());
+
+
+        Elements movieanswer = moviedocument.select("em:contains(.)");
+        System.out.println(movieanswer.text());
+        System.out.println(movieanswer.size());
+        FileOutputStream moviefout = new FileOutputStream("cricketQuestionBank2.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0; i < movieqstn.size() ; i++) {
+            String stringquestion = movieqstn.get(i).text();
+            stringquestion = stringquestion.substring(3).trim();
+            moviecsv.print('"' + stringquestion + '"'+",\n");
+
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+
+
+            String answer = movieanswer.get(i).text().trim().substring(0,1);
+            moviecsv.print('"' + answer + '"'+",\n");
+
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+
+
+            questions.setOptions(map);
+            questions.setQuestionText(stringquestion);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer);
+            questions.setCategoryId("cricket");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+
+        return false;
+    }
+
+    @Override
+    public boolean getCricketQuestions3() throws IOException {
+
+        Document moviedocument = Jsoup.connect("http://hardevgk.blogspot.com/2019/01/cricket-quiz-questions-answers.html").get();
+
+        Elements movieqstn = moviedocument.select("b:contains(?)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("span:contains(A.)");
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("span:contains(B.)");
+        Elements movieoptC = moviedocument.select("span:contains(C.)");
+        Elements movieoptD = moviedocument.select("span:contains(D.)");
+        System.out.println(movieoptD.text());
+        System.out.println(movieoptD.size());
+
+
+        Elements movieanswer = moviedocument.select("b:contains(Correct Answer)");
+        System.out.println(movieanswer.text());
+        System.out.println(movieanswer.size());
+        FileOutputStream moviefout = new FileOutputStream("iccQuestionBank.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0,j=0; i < movieqstn.size()&&j<movieoptA.size()  ; i++,j+=2) {
+            String stringquestion = movieqstn.get(i).text();
+            int len = stringquestion.length();
+            stringquestion = stringquestion.substring(3).trim();
+            moviecsv.print('"' + stringquestion + '"'+",\n");
+
+            String optA = movieoptA.get(j).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(j).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(j).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+            String optD = movieoptD.get(j).text().substring(2).trim();
+            moviecsv.print('"' + optD + '"'+",\n");
+
+
+            String answer = movieanswer.get(i).text().substring(17).trim();
+            moviecsv.print('"' + answer + '"'+",\n");
+
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+            map.put("optionD", optD);
+
+            questions.setQuestionText(stringquestion);
+            questions.setOptions(map);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer);
+            questions.setCategoryId("cricket");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+        return false;
+    }
+
+    @Override
     public boolean getFootballQuestions() throws IOException {
 
         Document footballdocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/quiz-on-sports-football-set-1-1446725050-1").get();
@@ -522,7 +655,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -588,7 +720,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -663,7 +794,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -729,7 +859,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -773,6 +902,144 @@ public class ScrapingServiceImpl implements ScrapingService {
     }
 
     @Override
+    public boolean getTennisQuestions2() throws IOException {
+
+        Document moviedocument = Jsoup.connect("https://www.wtatennis.com/news/1536538/20-questions-test-your-knowledge-on-the-2019-wta-year-end-quiz").get();
+
+        Elements movieqstn = moviedocument.select("strong:contains(?)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("div:matchesown(A. )");
+        System.out.println(movieoptA.text());
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("div:matchesown(B. )");
+        System.out.println(movieoptB.text());
+        System.out.println(movieoptB.size());
+        Elements movieoptC = moviedocument.select("div:matchesown(C. )");
+        System.out.println(movieoptC.text());
+        System.out.println(movieoptC.size());
+
+
+
+        Elements movieanswer = moviedocument.select("p:contains(Answers)");
+        System.out.println(movieanswer.text());
+        String[] answers = movieanswer.text().split(" ");
+        System.out.println(answers[6]);
+        System.out.println(movieanswer.size());
+        FileOutputStream moviefout = new FileOutputStream("tennisQuestionBank1.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0,j=4; i < movieqstn.size()&& j<answers.length ; i++,j+=2) {
+            String stringquestion = movieqstn.get(i).text();
+            int len = stringquestion.length();
+            stringquestion = stringquestion.substring(3);
+            moviecsv.print('"' + stringquestion + '"'+",\n");
+
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+
+
+            moviecsv.print('"' + answers[j] + '"'+",\n");
+
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+
+
+            questions.setOptions(map);
+            questions.setQuestionText(stringquestion);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answers[j]);
+            questions.setCategoryId("tennis");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+        return false;
+    }
+
+    @Override
+    public boolean getTennisQuestions3() throws IOException {
+
+        Document moviedocument = Jsoup.connect("https://www.welovequizzes.com/tennis-quiz-questions-and-answers/").get();
+
+        Elements movieqstn = moviedocument.select("h3:contains(?)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("p:contains(A.)");
+        System.out.println(movieoptA.text());
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("p:matchesown(B. )");
+        System.out.println(movieoptB.text());
+        System.out.println(movieoptB.size());
+        Elements movieoptC = moviedocument.select("p:matchesown(C. )");
+        System.out.println(movieoptC.text());
+        System.out.println(movieoptC.size());
+
+
+        Elements movieanswer = moviedocument.select("div:matchesown(Answer:)");
+        System.out.println(movieanswer.text());
+        System.out.println(movieanswer.size());
+        String[] answers = movieanswer.text().split(":");
+        System.out.println(answers.length);
+        FileOutputStream moviefout = new FileOutputStream("tennisQuestionBank2.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0,j=1; i < movieqstn.size()&&j<answers.length ; i++,j++) {
+            String stringquestion = movieqstn.get(i).text();
+            stringquestion = stringquestion.substring(3).trim();
+            moviecsv.print('"' + stringquestion + '"'+",\n");
+
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+
+
+            String[] answer = answers[j].split(" ") ;
+            moviecsv.print('"' + answer[1].substring(0,1) + '"'+",\n");
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+
+
+            questions.setOptions(map);
+            questions.setQuestionText(stringquestion);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer[1].substring(0,1));
+            questions.setCategoryId("tennis");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+        return false;
+    }
+
+    @Override
     public boolean getHockeyQuestions() throws IOException {
 
         Document moviedocument = Jsoup.connect("https://www.jagranjosh.com/general-knowledge/gk-quiz-on-sports-hockey-1447850179-1?ref=list_gk").get();
@@ -793,7 +1060,6 @@ public class ScrapingServiceImpl implements ScrapingService {
             stringquestion = stringquestion.substring(3);
             moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
 
-            //todo: move three line into one line
             String optA = movieoptA.get(i).text().substring(2).trim();
             moviecsv.print('"' + movieoptA.get(i).text() + '"'+",\n");
 
@@ -826,6 +1092,214 @@ public class ScrapingServiceImpl implements ScrapingService {
             questions.setQuestionFormat("text");
             questions.setAnswers(answer);
             questions.setCategoryId("hockey");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+        return false;
+    }
+
+    @Override
+    public boolean getBollywoodQuestions() throws IOException {
+
+        Document moviedocument = Jsoup.connect("https://www.welovequizzes.com/bollywood-movie-quiz-questions-and-answers/").get();
+
+        Elements movieqstn = moviedocument.select("h3:contains(?)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("p:contains(A.)");
+        movieoptA.remove(0);
+        System.out.println(movieoptA.text());
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("p:matchesown(B. )");
+        movieoptB.remove(0);
+        System.out.println(movieoptB.text());
+        System.out.println(movieoptB.size());
+        Elements movieoptC = moviedocument.select("p:matchesown(C. )");
+        System.out.println(movieoptC.text());
+        System.out.println(movieoptC.size());
+
+
+        Elements movieanswer = moviedocument.select("div:matchesown(Answer:)");
+        System.out.println(movieanswer.text());
+        System.out.println(movieanswer.size());
+        String[] answers = movieanswer.text().split(":");
+        System.out.println(answers.length);
+        FileOutputStream moviefout = new FileOutputStream("bollywoodQuestionBank2.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0,j=1; i < movieqstn.size()&&j<answers.length ; i++,j++) {
+            String stringquestion = movieqstn.get(i).text();
+            stringquestion = stringquestion.substring(3);
+            moviecsv.print('"' + stringquestion + '"'+",\n");
+
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+
+
+            String[] answer = answers[j].split(" ") ;
+            moviecsv.print('"' + answer[1].substring(0,1) + '"'+",\n");
+
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+
+
+            questions.setOptions(map);
+            questions.setQuestionText(stringquestion);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer[1].substring(0,1));
+            questions.setCategoryId("bollywood");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+
+        return false;
+    }
+
+    @Override
+    public boolean getHollywoodQuestions() throws IOException {
+
+        Document moviedocument = Jsoup.connect("https://www.welovequizzes.com/star-wars-quiz-questions-and-answers/").get();
+
+        Elements movieqstn = moviedocument.select("h3:contains(.)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("p:contains(A. )");
+        System.out.println(movieoptA.text());
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("p:matchesown(B. )");
+        System.out.println(movieoptB.text());
+        System.out.println(movieoptB.size());
+        Elements movieoptC = moviedocument.select("p:matchesown(C. )");
+        System.out.println(movieoptC.text());
+        System.out.println(movieoptC.size());
+
+
+        Elements movieanswer = moviedocument.select("div:matchesown(Answer:)");
+        System.out.println(movieanswer.text());
+        System.out.println(movieanswer.size());
+        String[] answers = movieanswer.text().split(":");
+        System.out.println(answers.length);
+        FileOutputStream moviefout = new FileOutputStream("hollywoodQuestionBank1.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0,j=1; i < movieqstn.size()&&j<answers.length ; i++,j++) {
+            String stringquestion = movieqstn.get(i).text();
+            stringquestion = stringquestion.substring(3).trim();
+            moviecsv.print('"' + movieqstn.get(i).text() + '"'+",\n");
+
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+
+
+            String[] answer = answers[j].split(" ") ;
+            moviecsv.print('"' + answer[1].substring(0,1) + '"'+",\n");
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+
+
+            questions.setOptions(map);
+            questions.setQuestionText(stringquestion);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer[1].substring(0,1));
+            questions.setCategoryId("hollywood");
+            questions.setQuestionType(1);
+            scrapingRepository.save(questions);
+
+
+        }
+        moviefout.close();
+
+        return false;
+    }
+
+    @Override
+    public boolean getHollywoodQuestions1() throws IOException {
+
+        Document moviedocument = Jsoup.connect("https://www.welovequizzes.com/oscars-quiz-questions-and-answers/").get();
+
+        Elements movieqstn = moviedocument.select("h3:contains(.)");
+        System.out.println(movieqstn.size());
+        Elements movieoptA = moviedocument.select("p:contains(A. )");
+        System.out.println(movieoptA.text());
+        System.out.println(movieoptA.size());
+        Elements movieoptB = moviedocument.select("p:matchesown(B. )");
+        System.out.println(movieoptB.text());
+        System.out.println(movieoptB.size());
+        Elements movieoptC = moviedocument.select("p:matchesown(C. )");
+        System.out.println(movieoptC.text());
+        System.out.println(movieoptC.size());
+
+
+        Elements movieanswer = moviedocument.select("div:matchesown(Answer:)");
+        System.out.println(movieanswer.text());
+        System.out.println(movieanswer.size());
+        String[] answers = movieanswer.text().split(":");
+        System.out.println(answers.length);
+        FileOutputStream moviefout = new FileOutputStream("oscarQuestionBank1.csv");
+        PrintStream moviecsv = new PrintStream(moviefout);
+        for (int i = 0,j=1; i < movieqstn.size()&&j<answers.length ; i++,j++) {
+            String stringquestion = movieqstn.get(i).text();
+            stringquestion = stringquestion.substring(3).trim();
+            moviecsv.print('"' + stringquestion + '"'+",\n");
+
+            String optA = movieoptA.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optA + '"'+",\n");
+
+            String optB = movieoptB.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optB + '"'+",\n");
+
+            String optC = movieoptC.get(i).text().substring(2).trim();
+            moviecsv.print('"' + optC + '"'+",\n");
+
+
+
+            String[] answer = answers[j].split(" ") ;
+            moviecsv.print('"' + answer[1].substring(0,1) + '"'+",\n");
+
+            Questions questions = new Questions();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("optionA", optA);
+            map.put("optionB", optB);
+            map.put("optionC", optC);
+
+
+            questions.setOptions(map);
+            questions.setQuestionText(stringquestion);
+            questions.setQuestionFormat("text");
+            questions.setAnswers(answer[1].substring(0,1));
+            questions.setCategoryId("hollywood");
             questions.setQuestionType(1);
             scrapingRepository.save(questions);
 

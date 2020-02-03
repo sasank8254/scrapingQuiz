@@ -14,10 +14,6 @@ import java.util.List;
 @CrossOrigin(origins = "*" , allowedHeaders = "*" )
 public class ScrapingController {
 
-    //todo : create one Scraping service interface
-    //todo : create mulitple implementation classes
-    //todo : autowire a collection of ScrapingService
-    //todo :: in the controller method iterate and execute methiod
 
     @Autowired
     ScrapingService scrapingService;
@@ -88,6 +84,44 @@ public class ScrapingController {
     @PostMapping("/getLiteratureQuestions1")
     public boolean getLiteratureQuestions() throws IOException {
         return scrapingService.getLiteratureQuestions1();
+    }
+
+
+    @PostMapping("/getBollywoodQuestions1")
+    public boolean getBollywoodQuestions() throws IOException {
+        return scrapingService.getBollywoodQuestions();
+    }
+
+
+    @PostMapping("/getTennisQuestions2")
+    public boolean getTennisQuestions2() throws IOException {
+        return scrapingService.getTennisQuestions2();
+    }
+
+    @PostMapping("/getTennisQuestions3")
+    public boolean getTennisQuestions3() throws IOException {
+        return scrapingService.getTennisQuestions3();
+    }
+
+    @PostMapping("/getCricketQuestions2")
+    public boolean getCricketQuestions2() throws IOException {
+        return scrapingService.getCricketQuestions2();
+    }
+
+
+    @PostMapping("/getCricketQuestions3")
+    public boolean getCricketQuestions3() throws IOException {
+        return scrapingService.getCricketQuestions3();
+    }
+
+    @PostMapping("/getHollywoodQuestions1")
+    public boolean getHollywoodQuestions1() throws IOException {
+        return scrapingService.getHollywoodQuestions();
+    }
+
+    @PostMapping("/getHollywoodQuestions2")
+    public boolean getHollywoodQuestions2() throws IOException {
+        return scrapingService.getHollywoodQuestions1();
     }
 
     @GetMapping("/get")
